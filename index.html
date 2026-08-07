@@ -636,18 +636,18 @@ const PRECIOS = {
     {label:"Cuenta completa Premium (5 perfiles)",precio:21.00}
   ],
   "Disney+":[
-    {label:"Perfil Estándar (2 ESPN)",precio:3.90},
+    {label:"Perfil Estándar (2 ESPN)",precio:4.25},
     {label:"Perfil Premium (todos los ESPN)",precio:5.00}
   ],
   "HBOMAX":[
-    {label:"Perfil Estándar",precio:1.60},
-    {label:"Perfil Platino",precio:2.50}
+    {label:"Perfil Estándar",precio:3.00},
+    {label:"Perfil Platino",precio:4.10}
   ],
   "Prime Video":[
     {label:"Perfil Individual",precio:3.00}
   ],
   "Crunchyroll":[
-    {label:"Perfil Individual",precio:2.00}
+    {label:"Perfil Individual",precio:3.00}
   ],
   "Canva":[
     {label:"Invitación mensual",precio:0.50,fijo:true},
@@ -686,7 +686,7 @@ const PRECIOS = {
   {label:"Dispositivo",precio:4.00}
 ],
 "Office 365":[
-  {label:"5 dispositivos (1 año · 3 meses garantía)",precio:20.00,fijo:true}
+  {label:"5 dispositivos (1 año · 6 meses garantía)",precio:28.00,fijo:true}
 ],
 "Plex":[
   {label:"Perfil",precio:4.50},
@@ -704,32 +704,32 @@ const COMBOS_FIJOS = [
   {
     id:"esencial", emoji:"⚡", nombre:"Combo Esencial", desc:"Lo básico pero potente",
     items:[
-      {svc:"Netflix", opt:"Perfil normal", precio:6.25},
-      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:5.50}
+      {svc:"Netflix", opt:"Perfil normal", precio:5.50},
+      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:4.00}
     ]
   },
   {
     id:"cine", emoji:"🎬", nombre:"Combo Cine Total", desc:"El entretenimiento completo",
     items:[
-      {svc:"Netflix", opt:"Perfil extra (alquiler)", precio:6.75},
-      {svc:"Disney+", opt:"Perfil Estándar", precio:3.75},
-      {svc:"HBOMAX", opt:"Perfil", precio:3.50}
+      {svc:"Netflix", opt:"Perfil extra (alquiler)", precio:6.50},
+      {svc:"Disney+", opt:"Perfil Estándar", precio:4.25},
+      {svc:"HBOMAX", opt:"Perfil Estándar", precio:3.00}
     ]
   },
   {
     id:"creativo", emoji:"🎨", nombre:"Combo Creativo", desc:"Para crear sin límites",
     items:[
-      {svc:"CapCut", opt:"Perfil", precio:7.00},
-      {svc:"Canva", opt:"EDU · 1 mes", precio:3.75},
-      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:5.50}
+      {svc:"CapCut", opt:"Dispositivo", precio:7.50},
+      {svc:"Canva", opt:"EDU · 1 mes", precio:0.50},
+      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:4.00}
     ]
   },
   {
     id:"pro", emoji:"🤖", nombre:"Combo Pro", desc:"Productividad + entretenimiento",
     items:[
-      {svc:"ChatGPT", opt:"Usuario compartido", precio:7.00},
-      {svc:"Netflix", opt:"Perfil normal", precio:6.25},
-      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:5.50}
+      {svc:"Google One + Gemini AI Pro", opt:"Invitación mensual", precio:3.00},
+      {svc:"Netflix", opt:"Perfil normal", precio:5.50},
+      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:4.00}
     ]
   },
   {
@@ -743,15 +743,15 @@ const COMBOS_FIJOS = [
   {
     id:"familia", emoji:"🏠", nombre:"Combo Familia", desc:"Para toda la casa",
     items:[
-      {svc:"Netflix", opt:"Perfil extra (a dominio)", precio:7.75},
-      {svc:"Disney+", opt:"Perfil Estándar", precio:3.75},
-      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:5.50},
-      {svc:"Prime Video", opt:"Perfil", precio:3.25}
+      {svc:"Netflix", opt:"Perfil extra (a dominio)", precio:6.50},
+      {svc:"Disney+", opt:"Perfil Estándar", precio:4.10},
+      {svc:"Spotify Premium", opt:"Activación unida a plan familiar", precio:4.00},
+      {svc:"Prime Video", opt:"Perfil", precio:3.00}
     ]
   }
 ];
 
-const DESCUENTOS = {1:0, 2:0, 3:0.10, 6:0.15, 12:0.20};
+const DESCUENTOS = {1:0, 2:0.10, 3:0.10, 6:0.20, 12:0.25};
 
 // ── ESTADO ──────────────────────────────────────────────────────────────
 let qtyI=1, qtyC=1;
