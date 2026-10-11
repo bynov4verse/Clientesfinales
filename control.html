@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NovaDesk Control</title>
+<style>
+:root{--a:#22aaff;--bg:#05080d;--card:#0d131c;--line:#1b2533;--tx:#f2f6fb;--mut:#8a97a8}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1100px 500px at 70% -10%,#0c2236,transparent),var(--bg);color:var(--tx);font:14px/1.45 "Segoe UI",system-ui,sans-serif;display:flex;min-height:100vh}
+[hidden]{display:none!important}
+aside{width:230px;border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh;flex-shrink:0}
+.logo{font:italic 800 24px "Segoe UI",sans-serif;padding:0 10px}.logo span{color:var(--a)}
+aside small{display:block;color:var(--mut);padding:0 10px 18px}
+nav button{display:block;width:100%;text-align:left;background:none;border:1px solid transparent;color:var(--tx);padding:12px;border-radius:12px;font:600 15px inherit;font-family:inherit;cursor:pointer;margin-bottom:4px}
+nav button.on{border-color:var(--a);background:#0a2236;color:var(--a)}
+#out{margin-top:18px;color:#ff5d73}
+section{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:10px;padding:14px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.top h1{margin:0;font-size:22px;font-weight:800;flex:1;text-transform:uppercase;min-width:120px}
+main{padding:20px 22px 60px}
+h3{margin:22px 0 10px;color:#7fd0ff}
+input,select,textarea{width:100%;background:#090e15;border:1px solid var(--line);color:var(--tx);border-radius:12px;padding:10px;font:inherit}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--a);outline-offset:1px}
+#q{width:220px}
+.btn{background:var(--a);color:#001826;border:0;border-radius:12px;padding:10px 16px;font:700 14px inherit;font-family:inherit;cursor:pointer}
+.alt{background:#1a2432;color:var(--tx)}.danger{background:#4a1520;color:#ff8da0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.card{background:linear-gradient(160deg,#101a27,var(--card));border:1px solid var(--line);border-radius:20px;padding:18px}
+.card small{color:var(--mut);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.4px}
+.card h2{margin:6px 0 0;font-size:30px;font-weight:800}
+.tw{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:20px}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line)}
+th{color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+tr:last-child td{border-bottom:0}
+td .btn{padding:5px 10px;font-size:12px;margin-right:3px}
+.b{padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600;background:#1a2432}
+.g{background:#0b3a2a;color:#4ee3a4}.y{background:#3d2b05;color:#ffc14d}.r{background:#44121c;color:#ff8da0}.c{background:#0a2a42;color:var(--a)}
+a.wa{color:#4ee3a4;text-decoration:none;border:1px solid #14543c;padding:4px 9px;border-radius:10px;font-size:12px;margin-right:3px}
+.bar{display:flex;align-items:center;gap:10px;margin:7px 0}.bar i{display:block;height:6px;border-radius:9px;background:var(--a)}.bar span{width:140px;font-weight:700}
+#login{max-width:340px;margin:12vh auto;padding:0 16px;width:100%}
+#login h1{font:italic 800 30px "Segoe UI",sans-serif;margin:0 0 4px}#login h1 span{color:var(--a)}
+#login p{color:var(--mut);margin:0 0 14px}#login input{margin-bottom:10px}
+#err{color:#ff8da0;min-height:20px;margin-bottom:6px}
+#modal{position:fixed;inset:0;background:#000c;display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:20px;z-index:9}
+.box{background:#0a0f16;border:1px solid var(--line);border-radius:24px;padding:22px;width:100%;max-width:500px}
+.box h3{margin:0 0 8px;font:italic 800 28px "Segoe UI",sans-serif;color:var(--tx);text-transform:uppercase}.box h3 span{color:var(--a)}
+label{display:block;margin:10px 0;color:var(--mut);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+label input,label select,label textarea{margin-top:5px;text-transform:none;letter-spacing:0;font-weight:400;font-size:14px;color:var(--tx)}
+.row{display:flex;gap:8px;margin-top:16px}.pr{display:flex;gap:8px;margin:6px 0}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#000;border:1px solid var(--a);padding:9px 16px;border-radius:12px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:20}
+#toast.on{opacity:1}
+@media(max-width:760px){body{display:block}aside{width:auto;height:auto;position:static;border:0;border-bottom:1px solid var(--line);padding:10px}aside small{display:none}nav{display:flex;gap:4px;overflow-x:auto}nav button{white-space:nowrap;margin:0;width:auto}#out{margin:0}main,.top{padding-left:12px;padding-right:12px}#q{width:100%}}
+</style>
+</head>
+<body>
+
+<div id="login" hidden>
+  <h1>Nova<span>Desk</span></h1>
+  <p>Acceso privado. Inicia sesión para ver tu panel.</p>
+  <form id="lf">
+    <input id="em" type="email" placeholder="Correo" autocomplete="username" required>
+    <input id="pw" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+    <div id="err"></div>
+    <button class="btn" style="width:100%">Entrar</button>
+  </form>
+</div>
+
+<aside id="side" hidden>
+  <div class="logo">Nova<span>Desk</span></div>
+  <small>Panel revendedor</small>
+  <nav id="nav"></nav>
+  <nav><button id="out">Cerrar sesión</button></nav>
+</aside>
+<section id="app" hidden>
+  <div class="top">
+    <h1 id="ttl"></h1>
+    <input id="q" placeholder="Buscar...">
+    <button class="btn" id="add"></button>
+  </div>
+  <main id="view"></main>
+</section>
+
+<div id="modal" hidden><div class="box">
+  <h3 id="mt"></h3><div id="mf"></div>
+  <div class="row"><button class="btn danger" id="del">Eliminar</button><span style="flex:1"></span><button class="btn alt" id="cancel">Cancelar</button><button class="btn" id="save">Guardar</button></div>
+</div></div>
+<div id="toast"></div>
+
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script defer>
+addEventListener('DOMContentLoaded', () => {
+firebase.initializeApp({
+  apiKey: "AIzaSyAMCDy8PWS36HPnEu1GXHLyDenWbzk5oy8",
+  authDomain: "novadesk-control.firebaseapp.com",
+  projectId: "novadesk-control",
+  storageBucket: "novadesk-control.firebasestorage.app",
+  messagingSenderId: "674451509142",
+  appId: "1:674451509142:web:f2794950c7d1acd56997b7"
+});
+const auth = firebase.auth(), db = firebase.firestore();
+db.enablePersistence({synchronizeTabs: true}).catch(() => {}); // caché local: abre casi al instante
+const $ = s => document.querySelector(s);
+const S = {cuentas: [], clientes: [], ventas: [], movs: [], tareas: []};
+const T = [['dash','Dashboard'],['cuentas','Cuentas'],['clientes','Clientes'],['ventas','Ventas'],['caja','Caja'],['tareas','Tareas'],['ajustes','Ajustes']];
+const AC = {cuentas:'cuentas', clientes:'clientes', ventas:'ventas', caja:'movs', tareas:'tareas'};
+const NOM = {cuentas:['cuenta','a'], clientes:['cliente','o'], ventas:['venta','a'], movs:['movimiento','o'], tareas:['tarea','a']};
+const PAGOS = ['Pago móvil','Zelle','Binance','PayPal','Efectivo','Otro'];
+const F = {
+  cuentas: [['servicio','Servicio'],['tipo','Tipo','select',['Alquiler','Dominio']],['modo','Se maneja por','select',['perfiles','dispositivos']],['usuario','Correo / usuario'],['clave','Clave'],['cupos','Cantidad de perfiles o dispositivos','number'],['corte','Fecha de corte','date'],['costo','Costo total de la cuenta $','number']],
+  clientes: [['nombre','Nombre'],['whatsapp','WhatsApp con código de país (ej. 58414...)','tel'],['notas','Notas','textarea']],
+  ventas: [['fecha','Fecha de venta','date'],['clienteId','Cliente','cli'],['cuentaId','Cuenta','cta'],['slot','Perfil','slot'],['precio','Precio $','number'],['dias','Duración en días','number'],['venc','Vence','date'],['cobrado','Estado de cobro','select',['Pendiente','Cobrado']],['metodo','Método de pago','select',PAGOS],['notas','Notas','textarea']],
+  movs: [['fecha','Fecha','date'],['tipo','Tipo','select',['Gasto','Ingreso extra']],['descripcion','Descripción'],['monto','Monto $','number']],
+  tareas: [['titulo','Tarea'],['fecha','Fecha límite','date'],['prioridad','Prioridad','select',['Alta','Media','Baja']],['nota','Nota','textarea']]
+};
+let tab = 'dash', q = '', cur = {}, unsubs = [], ready = 0, rq;
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$' + (+n || 0).toFixed(2);
+const sum = (a, f) => a.reduce((t, x) => t + (+f(x) || 0), 0);
+const iso = d => { const z = n => String(n).padStart(2, '0'); return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate()); };
+const today = () => iso(new Date());
+const addDays = (d, n) => { const x = new Date(d + 'T00:00:00'); x.setDate(x.getDate() + n); return iso(x); };
+const diff = d => Math.round((new Date(d + 'T00:00:00') - new Date(today() + 'T00:00:00')) / 864e5);
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 2600); };
+const cli = id => S.clientes.find(c => c.id == id) || {};
+const cta = id => S.cuentas.find(c => c.id == id) || {};
+const act = () => S.ventas.filter(v => !v.renovado && !v.liberada);
+const ocup = (id, skip = []) => act().filter(v => v.cuentaId == id && !skip.includes(v.id));
+const gan = v => v.cobrado == 'Cobrado' ? (v.precio || 0) - (v.costo || 0) : 0;
+const match = o => !q || JSON.stringify(Object.values(o)).toLowerCase().includes(q);
+const venBadge = d => d == null ? '' : d < 0 ? `<span class="b r">Vencida hace ${-d} d</span>` : d <= 3 ? `<span class="b y">Vence en ${d} d</span>` : `<span class="b g">${d} d</span>`;
+const wa = (c, v) => 'https://wa.me/' + (c.whatsapp || '').replace(/\D/g, '') + '?text=' + encodeURIComponent((localStorage.plantilla || 'Hola {cliente}, tu servicio {servicio} vence el {fecha}. ¿Quieres renovarlo?').replace('{cliente}', c.nombre).replace('{servicio}', v.servicio).replace('{fecha}', v.venc));
+const tbl = (h, rows) => rows.length ? `<div class="tw"><table><tr>${h.map(x => `<th>${x}</th>`).join('')}</tr>${rows.map(r => `<tr>${r.map(x => `<td>${x ?? ''}</td>`).join('')}</tr>`).join('')}</table></div>` : '<div class="card">Aún no hay registros aquí.</div>';
+const eb = (c, id) => `<button class="btn alt" onclick="openForm('${c}','${id}')">Editar</button>`;
+const quien = v => { const c = cta(v.cuentaId); return v.slot !== '' && v.slot != null && c.perfiles && c.perfiles[v.slot] ? c.perfiles[v.slot].nombre || 'Perfil ' + (+v.slot + 1) : 'Dispositivo'; };
+
+const V = {
+  dash() {
+    const m = today().slice(0, 7), A = act();
+    const cobM = S.ventas.filter(v => v.cobrado == 'Cobrado' && (v.fechaCobro || v.fecha || '').startsWith(m));
+    const libres = sum(S.cuentas, c => (c.cupos || 0) - ocup(c.id).length);
+    const dem = {}; A.forEach(v => dem[v.servicio || '—'] = (dem[v.servicio || '—'] || 0) + 1);
+    const mx = Math.max(1, ...Object.values(dem));
+    const prox = A.filter(v => v.venc && diff(v.venc) <= 7).sort((a, b) => a.venc.localeCompare(b.venc));
+    const st = [['Ingresos cobrados del mes', money(sum(cobM, v => v.precio))], ['Ganancia del mes', money(sum(cobM, gan))],
+      ['Pendiente de cobro', money(sum(A.filter(v => v.cobrado != 'Cobrado'), v => v.precio))], ['Cupos vendidos', A.length],
+      ['Cupos libres', libres], ['Vencen en 3 días', A.filter(v => v.venc && diff(v.venc) >= 0 && diff(v.venc) <= 3).length],
+      ['Vencidos sin renovar', A.filter(v => v.venc && diff(v.venc) < 0).length], ['Cuentas por cortar (5 d)', S.cuentas.filter(c => c.corte && diff(c.corte) <= 5).length],
+      ['Clientes', S.clientes.length], ['Tareas pendientes', S.tareas.filter(t => !t.hecha).length]];
+    return `<div class="stats">${st.map(([a, b]) => `<div class="card"><small>${a}</small><h2>${b}</h2></div>`).join('')}</div>
+      <h3>Por renovar o cobrar</h3>${ventasTbl(prox)}
+      <h3>Demanda de servicios</h3><div class="card">${Object.entries(dem).map(([k, n]) => `<div class="bar"><span>${esc(k)}</span><i style="width:${n / mx * 60}%"></i><b>${n}</b></div>`).join('') || 'Sin ventas activas.'}</div>`;
+  },
+  cuentas() {
+    const r = S.cuentas.filter(c => match({...c, p: JSON.stringify(c.perfiles)})).sort((a, b) => (a.servicio || '').localeCompare(b.servicio || ''));
+    return tbl(['Servicio', 'Tipo', 'Correo / usuario', 'En uso', 'Corte', 'Costo', ''], r.map(c => {
+      const n = ocup(c.id).length, lleno = n >= (c.cupos || 0);
+      return [esc(c.servicio), `<span class="b c">${esc(c.tipo)}</span>`, esc(c.usuario), `<span class="b ${lleno ? 'y' : 'g'}">${n}/${c.cupos || 0} ${c.modo == 'perfiles' ? 'perfiles' : 'dispositivos'}</span>`,
+        c.corte ? c.corte + ' ' + venBadge(diff(c.corte)) : '—', money(c.costo), eb('cuentas', c.id)];
+    }));
+  },
+  clientes() {
+    const r = S.clientes.filter(match).sort((a, b) => (a.nombre || '').localeCompare(b.nombre || ''));
+    return tbl(['Cliente', 'WhatsApp', 'Activos', 'Total cobrado', 'Última compra', ''], r.map(c => {
+      const vs = S.ventas.filter(v => v.clienteId == c.id);
+      return [esc(c.nombre), esc(c.whatsapp), `<span class="b c">${act().filter(v => v.clienteId == c.id).length}</span>`, money(sum(vs.filter(v => v.cobrado == 'Cobrado'), v => v.precio)), vs.map(v => v.fecha).sort().pop() || '—', eb('clientes', c.id)];
+    }));
+  },
+  ventas() {
+    const r = S.ventas.filter(v => match({...v, c: cli(v.clienteId).nombre})).sort((a, b) => (b.fecha || '').localeCompare(a.fecha || ''));
+    return ventasTbl(r);
+  },
+  caja() {
+    const L = [
+      ...S.ventas.filter(v => v.cobrado == 'Cobrado').map(v => ({f: v.fechaCobro || v.fecha, d: 'Venta · ' + v.servicio + ' · ' + (cli(v.clienteId).nombre || ''), t: 'Venta', m: v.precio || 0})),
+      ...S.cuentas.filter(c => c.costo).map(c => ({f: iso(new Date(c.creado || Date.now())), d: 'Compra de cuenta · ' + c.servicio + ' · ' + c.usuario, t: 'Compra de cuenta', m: -c.costo})),
+      ...S.movs.map(x => ({id: x.id, f: x.fecha, d: x.descripcion, t: x.tipo, m: x.tipo == 'Gasto' ? -x.monto : +x.monto}))
+    ].filter(match).sort((a, b) => (b.f || '').localeCompare(a.f || ''));
+    const M = L.filter(x => (x.f || '').startsWith(today().slice(0, 7))), ing = sum(M.filter(x => x.m > 0), x => x.m), egr = -sum(M.filter(x => x.m < 0), x => x.m);
+    return `<div class="stats">${[['Ingresos del mes', money(ing)], ['Egresos del mes', money(egr)], ['Balance del mes', money(ing - egr)]].map(([a, b]) => `<div class="card"><small>${a}</small><h2>${b}</h2></div>`).join('')}</div><h3>Libro mayor</h3>` +
+      tbl(['Fecha', 'Descripción', 'Tipo', 'Monto', ''], L.map(x => [x.f, esc(x.d), `<span class="b ${x.m < 0 ? 'r' : 'g'}">${x.t}</span>`, (x.m < 0 ? '-' : '+') + money(Math.abs(x.m)), x.id ? eb('movs', x.id) : '']));
+  },
+  tareas() {
+    const r = S.tareas.filter(match).sort((a, b) => (a.hecha ? 1 : 0) - (b.hecha ? 1 : 0) || (a.fecha || '9').localeCompare(b.fecha || '9')), P = {Alta: 'r', Media: 'y', Baja: 'g'};
+    return tbl(['Tarea', 'Fecha', 'Prioridad', 'Estado', ''], r.map(t => [esc(t.titulo) + (t.nota ? '<br><small style="color:var(--mut)">' + esc(t.nota) + '</small>' : ''), t.fecha || '—', `<span class="b ${P[t.prioridad] || ''}">${t.prioridad}</span>`,
+      t.hecha ? '<span class="b g">Hecha</span>' : t.fecha && diff(t.fecha) < 0 ? '<span class="b r">Vencida</span>' : t.fecha == today() ? '<span class="b y">Hoy</span>' : '<span class="b c">Pendiente</span>',
+      `<button class="btn" onclick="hecha('${t.id}',${!t.hecha})">${t.hecha ? 'Reabrir' : 'Hecha'}</button>` + eb('tareas', t.id)]));
+  },
+  ajustes() {
+    return `<div class="card"><small>Sesión iniciada</small><h2 style="font-size:18px">${esc(auth.currentUser ? auth.currentUser.email : '')}</h2></div>
+    <h3>Color de acento</h3><div class="card">${['#22aaff', '#10d9a0', '#ff4d6d', '#ffb020', '#e11d9a', '#a855f7'].map(c => `<button class="btn" style="background:${c};width:34px;height:34px;padding:0;margin-right:8px;border-radius:50%" onclick="acento('${c}')"></button>`).join('')}</div>
+    <h3>Mensaje de WhatsApp para renovar</h3><div class="card"><small>Usa {cliente}, {servicio} y {fecha}</small><textarea rows="3" style="margin-top:8px" onchange="localStorage.plantilla=this.value;toast('Mensaje guardado')">${esc(localStorage.plantilla || 'Hola {cliente}, tu servicio {servicio} vence el {fecha}. ¿Quieres renovarlo?')}</textarea></div>
+    <p style="color:var(--mut)">El color y el mensaje se guardan en este dispositivo.</p>`;
+  }
+};
+function ventasTbl(r) {
+  return tbl(['Fecha', 'Cliente', 'Servicio', 'Precio', 'Ganancia', 'Cobro', 'Vence', ''], r.map(v => {
+    const c = cli(v.clienteId), fin = v.renovado || v.liberada, cob = v.cobrado == 'Cobrado';
+    return [v.fecha, esc(c.nombre || '—'), esc(v.servicio) + ' · ' + esc(quien(v)), money(v.precio), cob ? money(gan(v)) : '—',
+      `<span class="b ${cob ? 'g' : 'y'}">${cob ? 'Cobrado' : 'Pendiente'}</span>`,
+      v.renovado ? '<span class="b">Renovada</span>' : v.liberada ? '<span class="b">Liberada</span>' : (v.venc || '') + ' ' + venBadge(v.venc ? diff(v.venc) : null),
+      (cob ? '' : `<button class="btn" onclick="cobrar('${v.id}')">Cobrar</button>`) + (c.whatsapp && !fin ? `<a class="wa" target="_blank" rel="noopener" href="${wa(c, v)}">WhatsApp</a>` : '') + eb('ventas', v.id) +
+      (fin ? '' : ` <button class="btn alt" onclick="renew('${v.id}')">Renovar</button><button class="btn alt" onclick="liberar('${v.id}')">Liberar</button>`)];
+  }));
+}
+function draw() {
+  $('#nav').innerHTML = T.map(([k, l]) => `<button class="${k == tab ? 'on' : ''}" onclick="go('${k}')">${l}</button>`).join('');
+  $('#ttl').textContent = T.find(t => t[0] == tab)[1];
+  const K = AC[tab]; $('#add').hidden = $('#q').hidden = !K;
+  if (K) $('#add').textContent = 'Nuev' + NOM[K][1] + ' ' + NOM[K][0];
+  $('#view').innerHTML = ready < 5 ? '<div class="card">Cargando tus datos...</div>' : V[tab]();
+}
+const render = () => { cancelAnimationFrame(rq); rq = requestAnimationFrame(draw); };
+window.go = k => { tab = k; q = ''; $('#q').value = ''; render(); };
+let qt; $('#q').oninput = e => { clearTimeout(qt); qt = setTimeout(() => { q = e.target.value.toLowerCase(); render(); }, 150); };
+
+const slotOpts = (cid, sel, skip) => {
+  const c = cta(cid);
+  if (!c.id || c.modo != 'perfiles') return '';
+  const used = ocup(cid, skip).map(v => +v.slot);
+  return (c.perfiles || []).map((p, i) => used.includes(i) && i != sel ? '' : `<option value="${i}" ${i == sel && sel !== '' ? 'selected' : ''}>${esc(p.nombre) || 'Perfil ' + (i + 1)}</option>`).join('');
+};
+function field([k, l, t, o], val) {
+  val = val ?? '';
+  let i;
+  if (t == 'select') i = `<select name="${k}">${o.map(x => `<option ${x == val ? 'selected' : ''}>${x}</option>`).join('')}</select>`;
+  else if (t == 'cli') i = `<select name="${k}"><option value="">Elige un cliente</option>${[...S.clientes].sort((a, b) => (a.nombre || '').localeCompare(b.nombre || '')).map(c => `<option value="${c.id}" ${c.id == val ? 'selected' : ''}>${esc(c.nombre)}</option>`).join('')}</select>`;
+  else if (t == 'cta') i = `<select name="${k}"><option value="">Elige una cuenta</option>${S.cuentas.filter(c => c.id == val || ocup(c.id, cur.skip).length < (c.cupos || 0)).map(c => `<option value="${c.id}" ${c.id == val ? 'selected' : ''}>${esc(c.servicio)} · ${esc(c.usuario)}</option>`).join('')}</select>`;
+  else if (t == 'slot') return `<label id="slotL" ${cta(cur.obj.cuentaId).modo == 'perfiles' ? '' : 'hidden'}>${l}<select name="slot">${slotOpts(cur.obj.cuentaId, val, cur.skip)}</select></label>`;
+  else if (t == 'textarea') i = `<textarea name="${k}" rows="2">${esc(val)}</textarea>`;
+  else i = `<input name="${k}" type="${t || 'text'}" ${t == 'number' ? 'step="any"' : ''} ${k == 'servicio' ? 'list="dl"' : ''} value="${esc(val)}">`;
+  return `<label>${l}${i}</label>`;
+}
+window.openForm = (col, id, pre) => {
+  const o = id ? S[col].find(x => x.id == id) : {...(col == 'ventas' ? {fecha: today(), dias: 30, cobrado: 'Pendiente'} : col == 'cuentas' ? {cupos: 5, modo: 'perfiles'} : col == 'movs' ? {fecha: today(), tipo: 'Gasto'} : col == 'tareas' ? {prioridad: 'Media', fecha: today()} : {}), ...pre};
+  cur = {col, id, pre, obj: o, skip: [id, pre && pre.renovaDe].filter(Boolean)};
+  $('#mt').innerHTML = (id ? 'Editar' : 'Nuev' + NOM[col][1]) + ' <span>' + NOM[col][0] + '</span>';
+  $('#mf').innerHTML = F[col].map(f => field(f, o[f[0]])).join('') + (col == 'cuentas' ? '<datalist id="dl">' + [...new Set(S.cuentas.map(c => c.servicio))].map(s => `<option value="${esc(s)}">`).join('') + '</datalist><div id="pf"></div>' : '');
+  if (col == 'cuentas') pfRows();
+  $('#del').hidden = !id;
+  $('#modal').hidden = false;
+};
+const g = k => $('#mf').querySelector(`[name=${k}]`);
+function pfRows() {
+  const pf = $('#pf'), old = [...pf.querySelectorAll('.pr')].map(r => [r.children[0].value, r.children[1].value]);
+  const base = old.length ? old : (cur.obj.perfiles || []).map(p => [p.nombre, p.pin]);
+  if (g('modo').value != 'perfiles') { pf.innerHTML = '<label>Los dispositivos entran por separado, sin perfil ni PIN.</label>'; return; }
+  pf.innerHTML = '<label>Perfiles (nombre y PIN)</label>' + Array.from({length: Math.min(+g('cupos').value || 0, 20)}, (_, i) => `<div class="pr"><input placeholder="Perfil ${i + 1}" value="${esc((base[i] || [])[0])}"><input placeholder="PIN" style="max-width:100px" value="${esc((base[i] || [])[1])}"></div>`).join('');
+}
+window.renew = id => {
+  const v = S.ventas.find(x => x.id == id);
+  openForm('ventas', null, {clienteId: v.clienteId, cuentaId: v.cuentaId, slot: v.slot, precio: v.precio, dias: v.dias || 30, metodo: v.metodo, fecha: today(), venc: addDays(today(), v.dias || 30), cobrado: 'Pendiente', renovaDe: id});
+};
+window.hecha = (id, v) => db.collection('tareas').doc(id).update({hecha: v});
+window.toast = toast;
+window.acento = c => { document.documentElement.style.setProperty('--a', c); localStorage.acento = c; };
+if (localStorage.acento) document.documentElement.style.setProperty('--a', localStorage.acento);
+window.cobrar = id => db.collection('ventas').doc(id).update({cobrado: 'Cobrado', fechaCobro: today()}).then(() => toast('Cobro registrado'));
+window.liberar = id => confirm('¿Liberar este cupo? Quedará disponible para otra venta.') && db.collection('ventas').doc(id).update({liberada: true}).then(() => toast('Cupo liberado'));
+$('#add').onclick = () => openForm(AC[tab], null);
+$('#cancel').onclick = () => $('#modal').hidden = true;
+$('#mf').onchange = e => {
+  const n = e.target.name;
+  if (cur.col == 'cuentas' && ['cupos', 'modo'].includes(n)) pfRows();
+  if (cur.col != 'ventas') return;
+  if (n == 'cuentaId') {
+    const c = cta(e.target.value);
+    cur.obj = {...cur.obj, cuentaId: c.id};
+    $('#slotL').hidden = c.modo != 'perfiles';
+    g('slot').innerHTML = slotOpts(c.id, '', cur.skip);
+  }
+  if (['cuentaId', 'fecha', 'dias'].includes(n) && g('fecha').value && +g('dias').value) g('venc').value = addDays(g('fecha').value, +g('dias').value);
+};
+$('#save').onclick = async () => {
+  const d = {};
+  $('#mf').querySelectorAll('[name]').forEach(e => d[e.name] = e.type == 'number' ? (e.value === '' ? 0 : +e.value) : e.value.trim());
+  if (cur.col == 'clientes' && !d.nombre) return toast('Escribe el nombre del cliente');
+  if (cur.col == 'movs' && (!d.descripcion || !d.monto)) return toast('Escribe la descripción y el monto');
+  if (cur.col == 'tareas' && !d.titulo) return toast('Escribe la tarea');
+  if (cur.col == 'cuentas') {
+    if (!d.servicio || !d.usuario) return toast('Falta el servicio o el correo/usuario');
+    d.perfiles = d.modo == 'perfiles' ? [...$('#pf').querySelectorAll('.pr')].map(r => ({nombre: r.children[0].value.trim(), pin: r.children[1].value.trim()})) : [];
+  }
+  if (cur.col == 'ventas') {
+    const c = cta(d.cuentaId);
+    if (!d.clienteId || !c.id) return toast('Elige el cliente y la cuenta');
+    if (c.modo == 'perfiles' && d.slot === '') return toast('Elige el perfil');
+    if (c.modo != 'perfiles') { d.slot = ''; if (ocup(c.id, cur.skip).length >= (c.cupos || 0)) return toast('Esa cuenta no tiene dispositivos libres'); }
+    d.slot = d.slot === '' ? '' : +d.slot;
+    d.servicio = c.servicio; d.costo = (c.costo || 0) / Math.max(1, c.cupos || 1);
+    if (!d.fecha) d.fecha = today();
+    if (!d.venc && d.dias) d.venc = addDays(d.fecha, d.dias);
+    if (d.cobrado == 'Cobrado' && !(cur.obj && cur.obj.fechaCobro)) d.fechaCobro = today();
+    if (cur.pre && cur.pre.renovaDe) d.renovaDe = cur.pre.renovaDe;
+  }
+  try {
+    const ref = db.collection(cur.col);
+    if (cur.id) await ref.doc(cur.id).set(d, {merge: true}); else { d.creado = Date.now(); await ref.add(d); }
+    if (d.renovaDe) await db.collection('ventas').doc(d.renovaDe).update({renovado: true});
+    $('#modal').hidden = true; toast('Guardado');
+  } catch (e) { toast('No se pudo guardar: ' + e.message); }
+};
+$('#del').onclick = () => confirm('¿Eliminar este registro?') && db.collection(cur.col).doc(cur.id).delete().then(() => { $('#modal').hidden = true; toast('Eliminado'); });
+
+$('#lf').onsubmit = ev => {
+  ev.preventDefault(); $('#err').textContent = '';
+  auth.signInWithEmailAndPassword($('#em').value, $('#pw').value).catch(() => $('#err').textContent = 'Correo o contraseña incorrectos.');
+};
+$('#out').onclick = () => auth.signOut();
+auth.onAuthStateChanged(u => {
+  $('#login').hidden = !!u; $('#app').hidden = $('#side').hidden = !u;
+  unsubs.forEach(f => f()); unsubs = []; ready = 0; Object.keys(S).filter(k => k[0] == '_').forEach(k => S[k] = 0);
+  if (u) {
+    render();
+    ['cuentas', 'clientes', 'ventas', 'movs', 'tareas'].forEach(c => unsubs.push(db.collection(c).onSnapshot(
+      s => { S[c] = s.docs.map(d => ({id: d.id, ...d.data()})); if (!S['_' + c]) { S['_' + c] = 1; ready++; } render(); },
+      e => toast('Sin acceso a los datos: ' + e.message))));
+  }
+});
+});
+</script>
+</body>
+</html>
