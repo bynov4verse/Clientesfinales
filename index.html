@@ -144,20 +144,21 @@ body:before{content:"";position:fixed;inset:-10%;z-index:-1;pointer-events:none;
 const PRECIOS = {
 
   "Netflix": [
-    {label:"Perfil Individual", precio:4.00, oferta:3.50},
-    {label:"Perfil Extra (a tu correo personal)", precio:5.00},
-    {label:"Cuenta completa Estándar (3 perfiles)", precio:11.00},
-    {label:"Cuenta completa Premium (5 perfiles)", precio:15.00},
+    {label:"Perfil Individual", precio:5.40, oferta:3.50},
+    {label:"Perfil Extra (a tu correo personal)", precio:7.00},
+    {label:"Cuenta completa Estándar (3 perfiles)", precio:11.50},
+    {label:"Cuenta completa Premium (5 perfiles)", precio:16.00},
   ],
 
   "Disney+": [
     {label:"Perfil Estándar (2 ESPN)", precio:2.50},
-    {label:"Perfil Premium (3 ESPN)", precio:3.50},
+    {label:"Perfil Premium Hulu (3 ESPN)", precio:3.50},
+    {label:"Perfil Premium Premium (7 ESPN)", precio:5.50},
   ],
 
   "HBOMAX": [
     {label:"Perfil Estándar", precio:1.80},
-    {label:"Perfil Platino (2 dispositivos)", precio:3.50},
+    {label:"Perfil Platino (2 dispositivos)", precio:3.00},
   ],
 
   "Prime Video": [
@@ -165,7 +166,7 @@ const PRECIOS = {
   ],
 
   "Crunchyroll": [
-    {label:"Perfil Individual", precio:2.00},
+    {label:"Perfil Individual", precio:2.50},
   ],
 
   "Canva": [
@@ -182,8 +183,8 @@ const PRECIOS = {
   ],
 
   "ChatGPT": [
-    {label:"Usuario compartido", precio:9.50},
-    {label:"Cuenta completa Individual", precio:22.75},
+    {label:"Usuario compartido", precio:10.50},
+    {label:"Cuenta completa Individual", precio:28.00},
   ],
 
   "Gemini AI Pro + 1TB": [
@@ -192,16 +193,16 @@ const PRECIOS = {
 
   "Spotify Premium": [
     {label:"Individual invitada a plan familiar", precio:4.50},
-    {label:"Solo para web (no reproduce en app)", precio:2.00},
+    {label:"Individual Total (factura independiente)", precio:6.00},
   ],
 
   "FlujoTV": [
     {label:"Dispositivo", precio:4.50},
-    {label:"Cuenta completa (3 dispositivos)", precio:12.00},
+    {label:"Cuenta completa (3 dispositivos)", precio:11.00},
   ],
 
   "YouTube Premium": [
-    {label:"Individual mensual", precio:6.50},
+    {label:"Individual mensual", precio:6.00},
   ],
 
   "Telelatino": [
@@ -231,7 +232,7 @@ const DESCUENTOS = {1:0, 3:0.10, 6:0.15, 12:0.20};
 
 // ═══════════════════════════════════════════════════════════
 //  MÉTODOS DE PAGO  (se muestran en la tienda)
-//  "min:15" = ese método solo se usa en pedidos mayores a $15.
+//  "min:15" = ese método solo se usa en pedidos mayores a $1.
 //  Para que muestre logo, sube img/pago-nombre.png (ej: pago-zelle.png)
 // ═══════════════════════════════════════════════════════════
 const PAGOS = [
@@ -239,13 +240,13 @@ const PAGOS = [
   {n:"Transferencia Bancaria"},
   {n:"Binance Pay"},
   {n:"Wally"},
-  {n:"Zinli", min:15},
+  {n:"Zinli", min:12},
   {n:"Zelle", min:15},
   {n:"Uglycash", min:15},
-  {n:"OKX", min:15},
-  {n:"Belo", min:15},
-  {n:"Pesos colombianos (Bre-b)", min:15},
-  {n:"Pesos chilenos (transferencia)", min:15},
+  {n:"OKX", min:1},
+  {n:"Belo", min:5},
+  {n:"Pesos colombianos (Bre-b)", min:4},
+  {n:"Pesos chilenos (transferencia)", min:6},
 ];
 
 // ═══════════════════════════════════════════════════════════
