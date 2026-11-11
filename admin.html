@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>NovaDesk · Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#09090a;--b2:#131315;--b3:#1b1b1e;--bd:rgba(255,255,255,.1);--mu:#a1a1aa;--red:#ef4444}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Plus Jakarta Sans',sans-serif;background:radial-gradient(ellipse at top,#2a0b0d,#09090a 55%) fixed;color:#f4f4f5;min-height:100vh;padding:1rem 1rem 7rem}
+.w{max-width:860px;margin:0 auto}button{font-family:inherit;cursor:pointer}
+h1{font-size:20px;font-weight:800}h2{font-size:15px;font-weight:800;margin:.2rem 0 .7rem}
+.top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:1rem}.top small{color:var(--mu);font-size:11px;display:block}
+.tabs{display:flex;gap:.4rem;overflow-x:auto;margin-bottom:1rem}.tb{flex-shrink:0;border:1px solid var(--bd);background:var(--b3);color:#f4f4f5;border-radius:999px;padding:.5rem 1rem;font-weight:700;font-size:13px}.tb.on{background:var(--red);border-color:var(--red)}
+.card{background:var(--b2);border:1px solid var(--bd);border-radius:16px;padding:.9rem;margin-bottom:.9rem}
+label{display:block;font-size:11.5px;font-weight:700;margin:.6rem 0 .25rem;color:var(--mu)}
+input,select,textarea{width:100%;padding:.6rem .75rem;border-radius:10px;border:1px solid var(--bd);background:var(--b3);color:#f4f4f5;font:500 13.5px 'Plus Jakarta Sans',sans-serif;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--red)}
+textarea{min-height:70px;resize:vertical}input[type=color]{padding:.15rem;height:38px;width:70px}input[type=checkbox]{width:18px;height:18px;accent-color:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}.g4 label{margin-top:.3rem}
+.r{display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem}.r>*{flex:1}.r>.s{flex:none}
+.btn{border:1px solid var(--bd);background:var(--b3);color:#f4f4f5;border-radius:10px;padding:.5rem .8rem;font-weight:700;font-size:12.5px}.btn.rd{background:var(--red);border-color:var(--red)}.btn.dg{color:#fca5a5}.btn.s{padding:.45rem .6rem}
+.pl{border:1px dashed var(--bd);border-radius:12px;padding:.7rem;margin-top:.6rem}.sh{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}.sh b{flex:1;font-size:15px}
+.th{width:44px;height:44px;border-radius:10px;background:#fff;object-fit:contain;padding:4px}.th.e{background:var(--b3);border:1px solid var(--bd)}
+.lr{display:flex;align-items:center;gap:.7rem}.lr input{width:auto}.note{font-size:11.5px;color:var(--mu);margin:.4rem 0;line-height:1.5}
+.bar{position:fixed;left:0;right:0;bottom:0;background:rgba(9,9,10,.92);backdrop-filter:blur(8px);border-top:1px solid var(--bd);padding:.8rem 1rem;z-index:5}.bar .w{display:flex;gap:.6rem}.bar .btn{flex:1;padding:.85rem;font-size:14px}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;font-weight:700;padding:.6rem 1rem;border-radius:12px;z-index:9;display:none;font-size:13px}#toast.er{background:#b91c1c}
+.lg{max-width:380px;margin:12vh auto 0}.lg .card{padding:1.2rem}.lg h1{margin-bottom:.3rem}
+@media(max-width:560px){.g2{grid-template-columns:1fr}}
+
+.lgw{min-height:80vh;display:grid;place-items:center}
+.lgc{width:100%;max-width:380px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.1);border-radius:26px;padding:2rem 1.5rem;text-align:center;box-shadow:0 30px 80px -20px rgba(239,68,68,.35);backdrop-filter:blur(12px)}
+.lgo{width:62px;height:62px;border-radius:20px;margin:0 auto 1rem;background:linear-gradient(135deg,#ef4444,#7f1d1d);display:grid;place-items:center;font-size:28px;font-weight:800;box-shadow:0 10px 30px -6px rgba(239,68,68,.7)}
+.lgc h1{font-size:24px;letter-spacing:-.02em}.lgs{color:var(--mu);font-size:13px;margin:.2rem 0 1.4rem}
+.fld{position:relative;margin-bottom:.8rem}.fld span{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);font-size:14px;opacity:.7}.fld input{padding:.85rem 2.6rem;border-radius:14px}
+.eye{position:absolute;right:.5rem;top:50%;transform:translateY(-50%);background:none;border:0;color:#fff;font-size:15px;padding:.4rem;opacity:.7}
+.lgb{width:100%;margin-top:.6rem;padding:.9rem;font-size:15px;border-radius:14px;box-shadow:0 10px 24px -8px rgba(239,68,68,.7)}.lgf{margin-top:1rem;font-size:11px;color:var(--mu)}
+.acc{padding:0;overflow:hidden}.ah{display:flex;align-items:center;gap:.5rem;padding:.7rem .8rem;cursor:pointer}.ah:hover{background:rgba(255,255,255,.03)}.am{flex:1;min-width:0}.am b{display:block;font-size:15px}.am small{color:var(--mu);font-size:11.5px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}.chev{color:var(--mu);font-size:13px;width:14px}.ab{padding:.2rem .9rem .9rem;border-top:1px solid var(--bd)}
+.ib{width:32px;height:32px;border-radius:9px;border:1px solid var(--bd);background:var(--b3);color:#f4f4f5;font-size:13px;flex:none}.ib:hover{border-color:var(--red)}.ib.dg{color:#fca5a5}
+.seg{display:flex;background:var(--b3);border:1px solid var(--bd);border-radius:10px;padding:2px;flex:none}.seg button{border:0;background:none;color:var(--mu);font-weight:700;font-size:11.5px;padding:.4rem .6rem;border-radius:8px}.seg button.on{background:var(--red);color:#fff}
+.pill{font-size:11px;font-weight:800;padding:.25rem .6rem;border-radius:999px;flex:none}.pill.on{background:rgba(34,197,94,.18);color:#4ade80}.pill.off{background:rgba(255,255,255,.08);color:var(--mu)}
+.cal{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.5rem;margin-top:.7rem}.cal div{background:var(--b3);border:1px solid var(--bd);border-radius:12px;padding:.5rem .6rem}.cal small{display:block;font-size:10.5px;color:var(--mu)}.cal b{font-size:16px}.gr{color:#4ade80}.dg2{color:#f87171}
+.card{border-radius:18px}.btn{border-radius:12px}
+</style></head><body><div class="w" id="app"></div><div id="toast"></div>
+<script src="firebase-config.js"></script>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,serverTimestamp}from"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+const DEF={"tienda": {"nombre": "NovaDesk", "h1": "Lun–Sáb 11:30 a. m. – 11:45 p. m.", "h2": "Dom 2:00 p. m. – 11:45 p. m.", "wa": "584145364023", "ig": "@novadesk_ve", "kick": "ENTRETENIMIENTO SIN LÍMITES", "t1": "Tus plataformas favoritas, ", "t2": "listas hoy mismo", "sub": "Planes de streaming con entrega rápida y soporte por WhatsApp 💬", "color": "#ef4444"}, "cats": ["Streaming", "IPTV", "Canva", "Música", "Herramientas / Edición", "Inteligencia Artificial"], "serv": [{"n": "Netflix", "cat": "Streaming", "color": "#e50914", "planes": [{"label": "Perfil Individual", "precio": 5.4}, {"label": "Perfil Extra (a tu correo personal)", "precio": 7}, {"label": "Cuenta completa Estándar (3 perfiles)", "precio": 11.5}, {"label": "Cuenta completa Premium (5 perfiles)", "precio": 16}]}, {"n": "Disney+", "cat": "Streaming", "color": "#1a6fff", "planes": [{"label": "Perfil Estándar (2 ESPN)", "precio": 2.5}, {"label": "Perfil Premium Hulu (3 ESPN)", "precio": 3.5}, {"label": "Perfil Premium Premium (7 ESPN)", "precio": 5.5}]}, {"n": "HBOMAX", "cat": "Streaming", "color": "#5822dc", "planes": [{"label": "Perfil Estándar", "precio": 1.8}, {"label": "Perfil Platino (2 dispositivos)", "precio": 3}]}, {"n": "Prime Video", "cat": "Streaming", "color": "#00a8e0", "planes": [{"label": "Perfil Individual", "precio": 3}]}, {"n": "Crunchyroll", "cat": "Streaming", "color": "#f47521", "planes": [{"label": "Perfil Individual", "precio": 2.5}]}, {"n": "Canva", "cat": "Canva", "color": "#00c4cc", "planes": [{"label": "Invitación", "meses": {"1": 0.5, "3": 1.25, "6": 2, "12": 3}}]}, {"n": "Apple TV", "cat": "Streaming", "color": "#c0c0c0", "planes": [{"label": "Dispositivo", "precio": 4}]}, {"n": "CapCut", "cat": "Herramientas / Edición", "color": "#ff3b5c", "planes": [{"label": "Dispositivo", "precio": 7.5}, {"label": "Cuenta completa (2 dispositivos)", "precio": 15}]}, {"n": "ChatGPT", "cat": "Inteligencia Artificial", "color": "#10a37f", "planes": [{"label": "Usuario compartido", "precio": 10.5}, {"label": "Cuenta completa Individual", "precio": 28}]}, {"n": "Gemini AI Pro + 1TB", "cat": "Inteligencia Artificial", "color": "#4285f4", "planes": [{"label": "Invitación", "meses": {"1": 3.5, "3": 7, "12": 14}}]}, {"n": "Spotify Premium", "cat": "Música", "color": "#1db954", "planes": [{"label": "Individual invitada a plan familiar", "precio": 4.5}, {"label": "Individual Total (factura independiente)", "precio": 6}]}, {"n": "FlujoTV", "cat": "IPTV", "color": "#ff6b35", "planes": [{"label": "Dispositivo", "precio": 4.5}, {"label": "Cuenta completa (3 dispositivos)", "precio": 11}]}, {"n": "YouTube Premium", "cat": "Streaming", "color": "#ff0000", "planes": [{"label": "Individual mensual", "precio": 6}]}, {"n": "Telelatino", "cat": "IPTV", "color": "#e31837", "planes": [{"label": "Dispositivo", "precio": 4}]}, {"n": "Office 365", "cat": "Herramientas / Edición", "color": "#e8630a", "planes": [{"label": "5 dispositivos (3 meses de garantía)", "meses": {"12": 20}}]}, {"n": "Plex", "cat": "Streaming", "color": "#e5a00d", "planes": [{"label": "Perfil", "precio": 4.5}, {"label": "Cuenta completa (3 dispositivos)", "precio": 12}]}, {"n": "Deezer", "cat": "Música", "color": "#a238ff", "planes": [{"label": "Individual", "precio": 5}]}, {"n": "TIDAL", "cat": "Música", "color": "#1a1a1a", "planes": [{"label": "Individual", "precio": 5.5}]}], "desc": {"1": 0, "3": 0.1, "6": 0.15, "12": 0.2}, "pagos": [{"n": "Pago Móvil"}, {"n": "Transferencia Bancaria"}, {"n": "Binance Pay"}, {"n": "Wally"}, {"n": "Zinli", "min": 12}, {"n": "Zelle", "min": 15}, {"n": "Uglycash", "min": 15}, {"n": "OKX", "min": 1}, {"n": "Belo", "min": 5}, {"n": "Pesos colombianos (Bre-b)", "min": 4}, {"n": "Pesos chilenos (transferencia)", "min": 6}], "camps": [{"id": "c1", "nombre": "Oferta", "activa": false, "hasta": "2026-10-17T23:45:00", "items": [{"s": "Netflix", "l": "Perfil Individual", "p": 3.5}, {"s": "Canva", "l": "Invitación", "m": 12, "p": 1.5}]}], "combos": [], "cauto": {"activo": false, "min": 2, "pct": 10}, "faq": [{"q": "¿Cómo recibo mi servicio después de pagar?", "a": "Una vez confirmado el pago, recibes las credenciales o la activación directamente por WhatsApp en un plazo de 1 a 24 horas. La mayoría de los servicios se entregan en minutos."}, {"q": "¿Qué pasa si mi servicio falla o se cae?", "a": "Ofrecemos soporte post-venta. Si tu servicio presenta fallas por causas atribuibles al proveedor, te ofrecemos solución o compensación de días. Escríbenos por WhatsApp con el detalle del problema."}, {"q": "¿Puedo compartir mi cuenta con otra persona?", "a": "Depende del tipo de servicio. Los perfiles son de uso personal. Las cuentas completas incluyen múltiples perfiles según el plan. Consulta las especificaciones de cada opción antes de comprar."}, {"q": "¿Cuáles métodos de pago aceptan?", "a": "Aceptamos Bs vía Pago Móvil, Binance Pay, Zinli, Zelle y Wally."}]};
+const $=s=>document.querySelector(s),E=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const TABS=["Tienda","Servicios","Combos","Ofertas","Pagos","Preguntas"],MS=[1,3,6,12],MT={1:"1 mes",3:"3 meses",6:"6 meses",12:"1 año"};
+let S=null,tab="Tienda",db,auth,fbOk=window.FB&&FB.projectId&&!/TU_/.test(FB.apiKey||"TU_");
+const toast=(m,e)=>{const t=$("#toast");t.textContent=m;t.className=e?"er":"";t.style.display="block";setTimeout(()=>t.style.display="none",e?4500:2200)};
+const I=(p,v,o={})=>`<input data-p="${p}" ${o.n?'data-n="1" type="number" step="0.01" min="0"':""} value="${E(v)}" placeholder="${E(o.ph||"")}">`;
+const get=(o,p)=>p.split(".").reduce((a,k)=>a?.[k],o);
+function setP(p,v){const k=p.split("."),l=k.pop(),o=k.reduce((a,x)=>a[x]??={},S);if(v===undefined)delete o[l];else o[l]=v}
+const mv=(a,i,d)=>{const j=i+d;if(j>=0&&j<a.length)[a[i],a[j]]=[a[j],a[i]]};
+
+function vTienda(){const t=S.tienda;return`<div class="card"><h2>Datos de la tienda</h2>
+<div class="lr"><img class="th ${S.logos.tienda?"":"e"}" style="border-radius:50%" ${S.logos.tienda?`src="${S.logos.tienda}"`:""}><div><label style="margin:0">Logo (se ajusta solo)</label><input type="file" accept="image/*" data-logo="tienda"></div></div>
+<p class="note">Si no subes un logo nuevo, se mantiene el actual.</p>
+<div class="g2"><div><label>Nombre de la tienda</label>${I("tienda.nombre",t.nombre)}</div><div><label>Color principal</label><input type="color" data-p="tienda.color" value="${E(t.color)}"></div>
+<div><label>Horario (línea 1)</label>${I("tienda.h1",t.h1)}</div><div><label>Horario (línea 2, opcional)</label>${I("tienda.h2",t.h2)}</div>
+<div><label>WhatsApp (con código de país, solo números)</label>${I("tienda.wa",t.wa,{ph:"584141234567"})}</div><div><label>Instagram</label>${I("tienda.ig",t.ig,{ph:"@tienda"})}</div></div></div>
+<div class="card"><h2>Portada</h2><label>Texto pequeño</label>${I("tienda.kick",t.kick)}<div class="g2"><div><label>Título (parte blanca)</label>${I("tienda.t1",t.t1)}</div><div><label>Título (parte de color)</label>${I("tienda.t2",t.t2)}</div></div><label>Subtítulo</label>${I("tienda.sub",t.sub)}</div>`}
+
+let OPEN=new Set();
+const IB=(a,x,d="",k="")=>`<button class="ib ${k}" data-a="${a}" ${d}>${x}</button>`;
+const findP=(sn,l)=>S.serv.find(s=>s.n===sn)?.planes.find(p=>p.label===l);
+const avl=(p,m)=>p.meses?p.meses[m]>0:true,prc=(p,m)=>p.meses?p.meses[m]:p.precio*m*(1-(S.desc[m]||0));
+const fix=(it,m)=>{const s=S.serv.find(x=>x.n===it.s)||S.serv[0],p=s.planes.find(x=>x.label===it.l)||s.planes[0];it.s=s.n;it.l=p.label;if(m){if(p.meses){if(!(it.m in p.meses))it.m=+Object.keys(p.meses)[0]}else delete it.m}return it};
+const svO=v=>S.serv.map(s=>`<option ${s.n===v?"selected":""}>${E(s.n)}</option>`).join("");
+const plO=(sn,v)=>(S.serv.find(s=>s.n===sn)?.planes||[]).map(p=>`<option ${p.label===v?"selected":""}>${E(p.label)}</option>`).join("");
+function vServ(){const o=S.cats.map(c=>`<option>${E(c)}</option>`).join("");
+return`<div class="card"><h2>Categorías</h2><label>Una por línea (la sección “Juegos y Recargas” es fija)</label><textarea data-cats>${E(S.cats.join("\n"))}</textarea></div>
+<div class="card"><h2>Descuento por cantidad de meses (%)</h2><div class="g4">${[3,6,12].map(m=>`<div><label>${MT[m]}</label><input type="number" min="0" max="90" data-p="desc.${m}" data-n="1" data-pct="1" value="${Math.round((S.desc[m]||0)*100)}"></div>`).join("")}</div>
+<p class="note">Aplica a los planes con precio mensual. Los planes “por duración” usan sus propios precios.</p></div>
+${S.serv.map((s,i)=>{const op=OPEN.has(i),ps=s.planes.map(p=>p.meses?Math.min(...Object.values(p.meses).filter(x=>x>0)):p.precio).filter(x=>x>0&&isFinite(x)),lo=ps.length?Math.min(...ps):0,cs=S.cats.includes(s.cat)?o:`<option>${E(s.cat)}</option>`+o;
+return`<div class="card acc"><div class="ah" data-a="tg" data-i="${i}"><img class="th ${S.logos.serv[s.n]?"":"e"}" ${S.logos.serv[s.n]?`src="${S.logos.serv[s.n]}"`:""}><div class="am"><b>${E(s.n)||"Nuevo servicio"}</b><small>${E(s.cat)} · ${s.planes.length} plan${s.planes.length!==1?"es":""}${lo?` · desde $${lo.toFixed(2)}`:""}</small></div><span class="dot" style="background:${E(s.color||"#ef4444")}"></span>${IB("up","↑",`data-l="serv" data-i="${i}"`)}${IB("dn","↓",`data-l="serv" data-i="${i}"`)}${IB("delS","🗑",`data-i="${i}"`,"dg")}<span class="chev">${op?"▴":"▾"}</span></div>
+${op?`<div class="ab"><div class="g2"><div><label>Nombre</label>${I(`serv.${i}.n`,s.n)}</div><div><label>Categoría</label><select data-p="serv.${i}.cat">${cs.replace(`<option>${E(s.cat)}</option>`,`<option selected>${E(s.cat)}</option>`)}</select></div>
+<div><label>Color de la tarjeta</label><input type="color" data-p="serv.${i}.color" value="${E(s.color||"#ef4444")}"></div><div><label>Logo (opcional)</label><input type="file" accept="image/*" data-logo="${E(s.n)}"></div></div>
+${s.planes.map((p,j)=>vPlan(i,j,p)).join("")}<button class="btn" style="margin-top:.7rem" data-a="addP" data-i="${i}">+ Agregar plan</button></div>`:""}</div>`}).join("")}
+<button class="btn rd" data-a="addS">+ Agregar servicio</button>`}
+
+function vPlan(i,j,p){const b=`serv.${i}.planes.${j}`,d=!!p.meses;
+return`<div class="pl"><div class="r"><div style="flex:2">${I(`${b}.label`,p.label,{ph:"Nombre del plan"})}</div><div class="seg"><button class="${d?"":"on"}" data-a="modo" data-md="0" data-i="${i}" data-j="${j}">Por mes</button><button class="${d?"on":""}" data-a="modo" data-md="1" data-i="${i}" data-j="${j}">Por duración</button></div>${IB("delP","✕",`data-i="${i}" data-j="${j}"`,"dg")}</div>
+${d?`<div class="g4">${MS.map(m=>`<div><label>${MT[m]} $</label>${I(`${b}.meses.${m}`,p.meses[m]??"",{n:1})}</div>`).join("")}</div>`:`<label>Precio por mes (USD)</label>${I(`${b}.precio`,p.precio??"",{n:1})}`}</div>`}
+
+function calc(c){let n=0,bad="";for(const it of c.items){const p=findP(it.s,it.l);if(!p||!avl(p,c.m)){bad=`“${E(it.s)} · ${E(it.l)}” no está disponible a ${MT[c.m]}.`;continue}n+=prc(p,c.m)}
+const f=n*(1-(c.pct||0)/100),g=c.costo>0?f-c.costo:null;
+return`<div class="cal"><div><small>Precio normal</small><b>$${n.toFixed(2)}</b></div><div><small>Con ${c.pct||0}% de rebaja</small><b class="gr">$${f.toFixed(2)}</b></div><div><small>El cliente ahorra</small><b>$${(n-f).toFixed(2)}</b></div>${g!==null?`<div><small>Tu ganancia</small><b class="${g<0?"dg2":"gr"}">$${g.toFixed(2)}</b></div>`:""}</div>${bad?`<p class="note" style="color:#fbbf24">${bad}</p>`:""}`}
+
+const vCombos=()=>{const a=S.cauto;return`<div class="card"><h2>Combo automático en el carrito</h2><p class="note">Si el cliente agrega varios servicios distintos, la rebaja se aplica sola. Actívalo solo si te gusta así.</p>
+<div class="lr"><input type="checkbox" data-p="cauto.activo" ${a.activo?"checked":""}><label style="margin:0">Activar descuento por combo</label></div>
+<div class="g2"><div><label>Desde cuántos servicios distintos</label><select data-p="cauto.min" data-n="1">${[2,3,4,5].map(n=>`<option ${a.min===n?"selected":""}>${n}</option>`).join("")}</select></div><div><label>Rebaja (%)</label>${I("cauto.pct",a.pct,{n:1})}</div></div></div>
+<div class="card"><h2>Combos fijos</h2><p class="note">Tú los diseñas: eliges servicios, duración y rebaja. Salen en la pestaña “Combos” de la tienda. Si escribes tu costo, la calculadora te muestra tu ganancia.</p>
+${S.combos.map((c,i)=>`<div class="pl"><div class="r"><div style="flex:2">${I(`combos.${i}.nombre`,c.nombre,{ph:"Nombre del combo"})}</div><div class="lr" style="flex:none"><input type="checkbox" data-p="combos.${i}.activo" ${c.activo!==false?"checked":""}><small>Visible</small></div>${IB("delB","🗑",`data-i="${i}"`,"dg")}</div>
+<div class="g4"><div><label>Duración</label><select data-p="combos.${i}.m" data-n="1">${MS.map(m=>`<option value="${m}" ${c.m===m?"selected":""}>${MT[m]}</option>`).join("")}</select></div><div><label>Rebaja %</label>${I(`combos.${i}.pct`,c.pct,{n:1})}</div><div><label>Tu costo $ (opc.)</label>${I(`combos.${i}.costo`,c.costo??"",{n:1})}</div></div>
+${c.items.map((it,k)=>`<div class="r" style="margin-top:.5rem"><select data-p="combos.${i}.items.${k}.s" data-fx="b,${i},${k}" data-lv="s">${svO(it.s)}</select><select data-p="combos.${i}.items.${k}.l" data-fx="b,${i},${k}">${plO(it.s,it.l)}</select>${IB("delBi","✕",`data-i="${i}" data-j="${k}"`,"dg")}</div>`).join("")}
+<button class="btn" style="margin-top:.5rem" data-a="addBi" data-i="${i}">+ Agregar servicio al combo</button><div data-calc="${i}">${calc(c)}</div></div>`).join("")}
+<button class="btn rd" style="margin-top:.7rem" data-a="addB">+ Crear combo</button></div>`};
+
+const vOfertas=()=>`<div class="card"><h2>Ofertas por fecha</h2><p class="note">Crea una oferta, elige qué servicios entran y hasta cuándo dura: el aviso con cuenta regresiva se arma solo. Puedes dejar varias guardadas y activar solo las que quieras.</p></div>
+${S.camps.map((c,i)=>{const st=!c.activa?["Apagada","off"]:(!c.hasta||new Date(c.hasta)<=new Date())?["Vencida","off"]:["En vivo","on"];
+return`<div class="card"><div class="r"><div style="flex:2">${I(`camps.${i}.nombre`,c.nombre,{ph:"Nombre (ej: Fin de semana)"})}</div><span class="pill ${st[1]}">${st[0]}</span>${IB("delC","🗑",`data-i="${i}"`,"dg")}</div>
+<div class="g2"><div><label>Termina el</label><input type="datetime-local" data-p="camps.${i}.hasta" value="${E((c.hasta||"").slice(0,16))}"></div><div class="lr" style="padding-top:1.5rem"><input type="checkbox" data-p="camps.${i}.activa" ${c.activa?"checked":""}><label style="margin:0">Activar esta oferta</label></div></div>
+${c.items.map((it,k)=>{const p=findP(it.s,it.l);return`<div class="pl"><div class="g2"><select data-p="camps.${i}.items.${k}.s" data-fx="c,${i},${k}" data-lv="s">${svO(it.s)}</select><select data-p="camps.${i}.items.${k}.l" data-fx="c,${i},${k}">${plO(it.s,it.l)}</select></div>
+<div class="g2">${p?.meses?`<div><label>Duración</label><select data-p="camps.${i}.items.${k}.m" data-n="1">${Object.keys(p.meses).map(m=>`<option value="${m}" ${it.m==m?"selected":""}>${MT[m]}</option>`).join("")}</select></div>`:""}<div><label>${p?.meses?"Precio en oferta ($)":"Precio por mes en oferta ($)"}</label>${I(`camps.${i}.items.${k}.p`,it.p||"",{n:1})}</div></div>
+<div class="r"><small class="note">Normal: ${p?(p.meses?`$${(p.meses[it.m]??0).toFixed(2)}`:`$${(p.precio??0).toFixed(2)}/mes`):"—"}</small>${IB("delCi","✕",`data-i="${i}" data-j="${k}"`,"dg")}</div></div>`}).join("")}
+<button class="btn" style="margin-top:.6rem" data-a="addCi" data-i="${i}">+ Agregar servicio a la oferta</button></div>`}).join("")}
+<button class="btn rd" data-a="addC">+ Nueva oferta</button>`;
+
+const vPagos=()=>`<div class="card"><h2>Métodos de pago</h2><p class="note">“Mínimo” = ese método solo aplica a pedidos mayores a ese monto en USD (déjalo vacío si no tiene mínimo). Los logos se muestran si existe la imagen <b>img/pago-nombre.jpg</b> en el repositorio.</p>
+${S.pagos.map((x,i)=>`<div class="r"><div style="flex:2">${I(`pagos.${i}.n`,x.n,{ph:"Nombre"})}</div><div>${I(`pagos.${i}.min`,x.min??"",{n:1,ph:"Mínimo $"})}</div><button class="btn s" data-a="up" data-l="pagos" data-i="${i}">↑</button><button class="btn s" data-a="dn" data-l="pagos" data-i="${i}">↓</button><button class="btn s dg" data-a="delG" data-i="${i}">✕</button></div>`).join("")}
+<button class="btn rd" data-a="addG">+ Agregar método</button></div>`;
+
+const vFaq=()=>`<div class="card"><h2>Preguntas frecuentes</h2>${S.faq.map((f,i)=>`<div class="pl"><div class="r"><div>${I(`faq.${i}.q`,f.q,{ph:"Pregunta"})}</div><button class="btn s dg" data-a="delF" data-i="${i}">✕</button></div><textarea data-p="faq.${i}.a">${E(f.a)}</textarea></div>`).join("")}<button class="btn rd" style="margin-top:.7rem" data-a="addF">+ Agregar pregunta</button></div>`;
+
+function render(){const a=$("#app");
+if(!fbOk){a.innerHTML=`<div class="lg"><div class="card"><h1>Falta la configuración</h1><p class="note">Abre <b>firebase-config.js</b> y pega tu configuración de Firebase (la misma que usa control.html).</p></div></div>`;return}
+if(!auth.currentUser){a.innerHTML=`<div class="lgw"><div class="lgc"><div class="lgo">N</div><h1>NovaDesk</h1><p class="lgs">Panel de administración</p><div class="fld"><span>✉️</span><input id="em" type="email" placeholder="Correo" autocomplete="username"></div><div class="fld"><span>🔒</span><input id="pw" type="password" placeholder="Clave" autocomplete="current-password"><button class="eye" data-a="eye" type="button">👁</button></div><button class="btn rd lgb" data-a="login">Entrar</button><p class="lgf">Acceso solo para administradores</p></div></div>`;return}
+if(!S){a.innerHTML=`<p class="note" style="text-align:center;margin-top:30vh">Cargando…</p>`;return}
+const v={Tienda:vTienda,Servicios:vServ,Combos:vCombos,Ofertas:vOfertas,Pagos:vPagos,Preguntas:vFaq}[tab]();
+a.innerHTML=`<div class="top"><div><h1>Panel · ${E(S.tienda.nombre)}</h1><small>${E(auth.currentUser.email)}</small></div><div class="r" style="flex:none"><a class="btn" href="index.html" target="_blank" style="text-decoration:none;color:#fff">Ver tienda</a><button class="btn" data-a="out">Salir</button></div></div>
+<div class="tabs">${TABS.map(t=>`<button class="tb ${t===tab?"on":""}" data-a="tab" data-t="${t}">${t}</button>`).join("")}</div>${v}
+<div class="bar"><div class="w"><button class="btn rd" data-a="save">Guardar y publicar cambios</button></div></div>`}
+
+const cl=o=>JSON.parse(JSON.stringify(o));
+function norm(c,l){const d=cl(DEF);S={...d,...c,tienda:{...d.tienda,...(c?.tienda||{})},desc:{...d.desc,...(c?.desc||{})},cauto:{...d.cauto,...(c?.cauto||{})},logos:{tienda:l?.tienda||"",serv:l?.serv||{}}};delete S.oferta;S.serv.forEach(s=>s.planes.forEach(p=>delete p.oferta));if(!Array.isArray(S.camps))S.camps=d.camps;if(!Array.isArray(S.combos))S.combos=[]}
+function limpiar(){S.cats=S.cats.filter(Boolean);
+for(const s of S.serv){if(!s.n?.trim())return"Hay un servicio sin nombre.";if(!s.planes.length)return`“${s.n}” no tiene planes.`;
+ for(const p of s.planes){if(!p.label?.trim())return`“${s.n}” tiene un plan sin nombre.`;
+  if(p.meses){for(const m in p.meses)if(!(p.meses[m]>0))delete p.meses[m];if(!Object.keys(p.meses).length)return`“${s.n} · ${p.label}” necesita al menos un precio.`;
+   if(p.oferta){for(const m in p.oferta)if(!(p.oferta[m]>0))delete p.oferta[m];if(!Object.keys(p.oferta).length)delete p.oferta}}
+  else{if(!(p.precio>0))return`“${s.n} · ${p.label}” necesita un precio.`;if(!(p.oferta>0))delete p.oferta}}
+ if(!S.cats.includes(s.cat))S.cats.push(s.cat)}
+S.pagos=S.pagos.filter(x=>x.n?.trim());S.pagos.forEach(x=>{if(!(x.min>0))delete x.min});S.faq=S.faq.filter(f=>f.q?.trim());
+S.tienda.wa=String(S.tienda.wa||"").replace(/\D/g,"");if(!S.tienda.wa)return"Falta el número de WhatsApp.";
+for(const c of S.camps){c.items=c.items.filter(i=>i.p>0&&findP(i.s,i.l));c.nombre=(c.nombre||"").trim();if(c.activa&&(!c.hasta||!c.items.length))return`La oferta “${c.nombre||"sin nombre"}” está activa pero le falta la fecha o algún servicio con precio.`;if(c.hasta&&c.hasta.length===16)c.hasta+=":00"}
+for(const c of S.combos){c.items=c.items.filter(i=>findP(i.s,i.l));if(!c.nombre?.trim())return"Hay un combo sin nombre.";if(c.items.length<2)return`El combo “${c.nombre}” necesita al menos 2 servicios.`;c.pct=Math.min(90,Math.max(0,+c.pct||0))}
+S.cauto.pct=Math.min(90,Math.max(0,+S.cauto.pct||0));return""}
+async function guardar(){const e=limpiar();if(e)return toast(e,1);
+const{logos,...cfg}=S,lj=JSON.stringify(logos);if(lj.length>900000)return toast("Los logos pesan demasiado; quita alguno.",1);
+try{await setDoc(doc(db,"catalogo","config"),{json:JSON.stringify(cfg),updated:serverTimestamp()});await setDoc(doc(db,"catalogo","logos"),{json:lj,updated:serverTimestamp()});toast("✓ Publicado. Ya se ve en la tienda.");render()}
+catch(x){toast(x.code==="permission-denied"?"Sin permiso: revisa las reglas de Firestore y tu correo.":"Error: "+x.message,1)}}
+async function cargar(){try{const[c,l]=await Promise.all(["config","logos"].map(async d=>{const s=await getDoc(doc(db,"catalogo",d));return s.exists()?JSON.parse(s.data().json):null}));norm(c,l)}catch(x){norm(null,null);toast("No pude leer la base: se muestran los datos actuales de la tienda.",1)}render()}
+function logo(file,key){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const z=160,c=document.createElement("canvas");c.width=c.height=z;const k=Math.min(z/im.width,z/im.height),w=im.width*k,h=im.height*k;c.getContext("2d").drawImage(im,(z-w)/2,(z-h)/2,w,h);const u=c.toDataURL("image/webp",.9);if(key==="tienda")S.logos.tienda=u;else S.logos.serv[key]=u;render()};im.src=r.result};r.readAsDataURL(file)}
+
+document.addEventListener("input",e=>{const t=e.target,p=t.dataset.p;if(!p||!S)return;
+let v=t.type==="checkbox"?t.checked:t.dataset.n?(t.value===""?undefined:+t.value):t.value;if(t.dataset.pct)v=(v||0)/100;setP(p,v);if(p.startsWith("combos."))document.querySelectorAll("[data-calc]").forEach(el=>el.innerHTML=calc(S.combos[el.dataset.calc]))});
+document.addEventListener("change",e=>{const t=e.target,d=t.dataset;if(d.cats!==undefined){S.cats=t.value.split("\n").map(x=>x.trim()).filter(Boolean);render()}
+else if(d.fx){const[a,i,k]=d.fx.split(","),it=(a==="c"?S.camps:S.combos)[i].items[k];if(d.lv==="s")it.l=undefined;fix(it,a==="c");render()}
+else if(d.logo&&t.files[0])logo(t.files[0],d.logo);else if(t.tagName==="SELECT")render()});
+document.addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.target.id==="pw"||e.target.id==="em"))document.querySelector('[data-a="login"]').click()});
+document.addEventListener("click",async e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,i=+b.dataset.i,j=+b.dataset.j;
+if(a==="login"){try{await signInWithEmailAndPassword(auth,$("#em").value.trim(),$("#pw").value)}catch(x){toast("Correo o clave incorrectos.",1)}return}
+if(a==="eye"){const p=$("#pw");p.type=p.type==="password"?"text":"password";return}
+if(a==="out"){signOut(auth);return}if(!S)return;if(a==="save")return guardar();
+const need=()=>{if(S.serv.length)return 0;toast("Primero agrega un servicio.",1);return 1};
+switch(a){
+case"tab":tab=b.dataset.t;break;
+case"tg":OPEN.has(i)?OPEN.delete(i):OPEN.add(i);break;
+case"up":case"dn":{const d=a==="up"?-1:1;mv(S[b.dataset.l],i,d);if(b.dataset.l==="serv")OPEN=new Set([i+d]);break}
+case"addS":S.serv.push({n:"",cat:S.cats[0]||"General",color:"#ef4444",planes:[{label:"Plan",precio:0}]});OPEN=new Set([S.serv.length-1]);break;
+case"delS":if(!confirm(`¿Eliminar “${S.serv[i].n}”?`))return;S.serv.splice(i,1);OPEN=new Set;break;
+case"addP":S.serv[i].planes.push({label:"",precio:0});break;
+case"delP":S.serv[i].planes.splice(j,1);break;
+case"modo":{const p=S.serv[i].planes[j];if(!!p.meses===(b.dataset.md==="1"))return;if(p.meses){p.precio=p.meses[1]??Object.values(p.meses)[0];delete p.meses}else{p.meses={1:p.precio||0};delete p.precio}break}
+case"addG":S.pagos.push({n:""});break;case"delG":S.pagos.splice(i,1);break;
+case"addF":S.faq.push({q:"",a:""});break;case"delF":S.faq.splice(i,1);break;
+case"addC":S.camps.push({id:"c"+Date.now(),nombre:"",activa:true,hasta:"",items:[]});break;
+case"delC":S.camps.splice(i,1);break;
+case"addCi":if(need())return;S.camps[i].items.push(fix({s:S.serv[0].n,p:0},1));break;
+case"delCi":S.camps[i].items.splice(j,1);break;
+case"addB":S.combos.push({id:"b"+Date.now(),nombre:"",activo:true,m:1,pct:10,items:[]});break;
+case"delB":S.combos.splice(i,1);break;
+case"addBi":if(need())return;S.combos[i].items.push(fix({s:S.serv[0].n},0));break;
+case"delBi":S.combos[i].items.splice(j,1);break}
+render()});
+
+if(fbOk){const app=initializeApp(FB);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,u=>{S=null;render();if(u)cargar()})}else render();
+</script></body></html>
